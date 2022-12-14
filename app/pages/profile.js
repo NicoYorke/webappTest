@@ -32,7 +32,7 @@ export default function Contact() {
           >
             Logout
           </button>
-          <pre><code>{JSON.stringify(user, null, 2)}</code></pre>
+          <pre><code>{JSON.stringify(user.email)}</code></pre>
           
         </>
       }

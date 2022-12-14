@@ -3,16 +3,25 @@ import Layout from '../components/Layout.js'
 import { useState, useEffect, useSyncExternalStore } from 'react';
 import { supabase } from './api/supabase';
 import { useRouter } from 'next/router'
+import UserContext from '../components/UserContext.js';
+import { useContext } from 'react';
 
 export default function Addarticle() {
 
+    const { user, logout, loading } = useContext(UserContext)
+
     const [title, setTitle] = useState('')
-    const [author, setAuthor] = useState('')
+    const [author, setAuthor] = useState(user.email)
+    const [content, setContent] = useState('')
     const [formError, setFormError] = useState(null)
 
     const router = useRouter()
+    
 
     const handleSubmit = async (e) => { 
+
+        //setAuthor(JSON.stringify(user.email))
+
         e.preventDefault()
 
         if(!title || !author){
@@ -22,7 +31,7 @@ export default function Addarticle() {
 
         const { data, error } = await supabase
             .from("article")
-            .insert([{title, author}])
+            .insert([{title, author, content}])
 
         if (error){ 
             console.log("Error happened")
@@ -67,7 +76,7 @@ export default function Addarticle() {
                     id="author" 
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     value={author}
-                    onChange={(e) => setAuthor(e.target.value)}
+                    //onChange={(e) => setAuthor(e.target.value)}
                     />
             </div>
             <div>
@@ -75,7 +84,9 @@ export default function Addarticle() {
                 <input 
                     type="text" 
                     id="content" 
-                    class="block p-4 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                    class="block p-4 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}/>
             </div>
             <button>Save</button>
             {formError && <p className='error'>{formError}</p>}

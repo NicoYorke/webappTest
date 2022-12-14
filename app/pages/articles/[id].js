@@ -14,12 +14,12 @@ export default function Article({
         <meta name="description" content="WebTech articles page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1 className=''>
+      <h1 className='text-4xl'>
         {article.title}
       </h1>
-      <p className="italic my-5">This page fetches data at build time, excellent for SEO.</p>
+      
       <p>
-        {article.message}
+        {article.content}
       </p>
     </Layout>
   )
