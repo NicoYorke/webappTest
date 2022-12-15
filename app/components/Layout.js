@@ -8,7 +8,7 @@ export default function Layout({
   return (
     <div>
       <Header />
-      <main className="py-10 min-h-screen max-w-full md:mx-auto">
+      <main className="py-10 px-10 min-h-screen max-w-full md:mx-auto">
       {children}
       </main>
       <Footer />
