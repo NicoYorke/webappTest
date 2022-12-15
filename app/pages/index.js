@@ -11,9 +11,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
- <main class="flex flex-col items-center justify-center flex-grow min-h-screen px-0 py-16" style={{ backgroundImage: `url(${"images/image1.png"})` }}>
+        <main class="flex flex-col items-center justify-center flex-grow min-h-screen px-0 py-16" style={{ backgroundImage: `url(${"images/image1.png"})` }}>
           <h1 class="overline text-white text-6xl m-0 absolute top-28 leading-tight">
-          Welcome to <a href="https://www.adaltas.com">web technologies!</a>
+            Welcome to <a href="https://www.adaltas.com">web technologies!</a>
           </h1>
 
           <div class="flex flex-wrap items-center justify-centergrid my-0 mx-auto px-0 py-10 grid grid-cols-3 gap-4">
@@ -24,11 +24,11 @@ export default function Home() {
                 <img class="rounded-t-lg" src="" alt="" />
               </a>
               <div class="p-6">
-              <li>
-          <Link href="/contact">
-            A propos de nous
-          </Link>
-        </li>
+                <li>
+                  <Link href="/about">
+                    A propos de nous
+                  </Link>
+                </li>
               </div>
             </div>
 
@@ -38,11 +38,11 @@ export default function Home() {
                 <img class="rounded-t-lg" src="" alt="" />
               </a>
               <div class="p-6">
-              <li>
-          <Link href="/contact">
-            Nous contacter
-          </Link>
-        </li>
+                <li>
+                  <Link href="/contact">
+                    Nous contacter
+                  </Link>
+                </li>
               </div>
             </div>
 
@@ -54,17 +54,17 @@ export default function Home() {
                 <img class="rounded-t-lg" src="" alt="" />
               </a>
               <div class="p-6">
-              <li>
-          <Link href="/contact">
-            Nos articles
-          </Link>
-        </li>
+                <li>
+                  <Link href="/articles">
+                    Nos articles
+                  </Link>
+                </li>
               </div>
             </div>
           </div>
 
         </main>
-        </div>
+      </div>
     </Layout>
   )
 }

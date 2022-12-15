@@ -36,10 +36,11 @@ export default function Articles({articles}) {
         <meta name="description" content="WebTech articles page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1 className='wt-title'>
-        Web technologies article
+      <main class="flex flex-col items-center justify-center flex-grow min-h-screen px-0 py-16" style={{ backgroundImage: `url(${"images/image2.jpeg"})` }}>
+      <h1 className='text-black text-5xl m-0 leading-tight'>
+        Web technologies articles
       </h1>
-      <div class="flex-wrap flex justify-center">
+      <div class="grid my-0 mx-auto px-0 py-10 grid grid-cols-3 gap-4">
           {articles.map(art =>
           <div key={art.id} class="my-0 mx-5 px-0 py-10">
             <div class="mx-auto">
@@ -47,7 +48,7 @@ export default function Articles({articles}) {
                 <a href="#!" data-mdb-ripple="true" data-mdb-ripple-color="light">
                 </a>
                 
-                <div class="p-6">
+                <div class="p-6 transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-blue-100 duration-50">
                   <h5 class="text-gray-900 text-xl font-medium mb-2" gutterBottom variant="h5" component="div"><Link href={`/articles/${art.id}`}>{art.title}</Link></h5>
                   <p class="text-gray-700 text-base mb-4" variant="body2" color="text.secondary">
                     {art.author}
@@ -63,6 +64,7 @@ export default function Articles({articles}) {
         )}
 
         </div>
+        </main>
         <MyTest></MyTest>
 
         
