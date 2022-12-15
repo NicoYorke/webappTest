@@ -3,7 +3,9 @@ import Link from 'next/link'
 import Layout from '../components/Layout.js'
 import { supabase } from './api/supabase'
 import UserContext from '../components/UserContext'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
+
+
 
 
 export async function getStaticProps(ctx) {
@@ -11,6 +13,7 @@ export async function getStaticProps(ctx) {
   let { data, error, status } = await supabase
     .from('article')
     .select()
+    
   if (!error) articles = data // handle errors
   return {
     props: {
@@ -22,6 +25,9 @@ export async function getStaticProps(ctx) {
 
 
 export default function Articles({articles}) {
+
+  
+
 
   return (
     <Layout>
@@ -58,6 +64,9 @@ export default function Articles({articles}) {
 
         </div>
         <MyTest></MyTest>
+
+        
+
     </Layout>
   )
 }
