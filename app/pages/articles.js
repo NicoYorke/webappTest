@@ -36,7 +36,7 @@ export default function Articles({articles}) {
         <meta name="description" content="WebTech articles page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main class="flex flex-col items-center justify-center flex-grow min-h-screen px-0 py-16" style={{ backgroundImage: `url(${"images/image2.jpeg"})` }}>
+      <main class="flex flex-col items-center justify-center flex-grow min-h-screen px-0 py-16 bg-slate-300" >
       <h1 className='text-black text-5xl m-0 leading-tight'>
         Web technologies articles
       </h1>
