@@ -37,9 +37,7 @@ export default function Articles({articles}) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main class="flex flex-col items-center justify-center flex-grow min-h-screen px-0 py-16 bg-slate-300" >
-      <h1 className='text-black text-5xl m-0 leading-tight'>
-        Web technologies articles
-      </h1>
+      <h1 class="flex items-center text-5xl font-extrabold dark:text-white">Articles<span class="bg-blue-100 text-blue-800 text-2xl font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-2">WebTech</span></h1>
       <div class="grid my-0 mx-auto px-0 py-10 grid grid-cols-3 gap-4">
           {articles.map(art =>
           <div key={art.id} class="my-0 mx-5 px-0 py-10">
@@ -65,7 +63,7 @@ export default function Articles({articles}) {
 
         </div>
         </main>
-        <MyTest></MyTest>
+        <MyTest ></MyTest>
 
         
 
@@ -79,8 +77,10 @@ function MyTest(){
 
   if(user){ 
     return (
+      <main class="flex flex-col items-center justify-center flex-grow min-h-screen px-0 py-16 bg-slate-300" >
       <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"><Link href="/addarticle">Add an article</Link></button>
-    )
+    </main>
+      )
   }
   else{ 
     return null
