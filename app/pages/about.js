@@ -49,13 +49,13 @@ export default function About() {
       </svg>
     </div>
     <h2 class="uppercase mt-6 text-indigo-500 font-medium mb-3">
-      Social convention
+      Convention social
     </h2>
     <p class="font-light text-sm text-gray-500 mb-3">
       La politique social de notre site tourne autours du bien être de nos lecteurs.
       En conséquence les commentaire ou artcicle haineux seront automatiquement supprimé. 
     </p>
-    <a class="text-indigo-500 flex items-center hover:text-indigo-600" href="/">
+    <a class="text-indigo-500 flex items-center hover:text-indigo-600" href="https://www.convention.fr/actualites/conventions-collectives-organismes-sociaux-132">
       Voir les conventions
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +96,7 @@ export default function About() {
       Sur notre platforme vos donnée personnel sont intégralement protéger et confidentiel.
       conforùmement à la loi nous garrentissons que nous ne les sauvegardons pas. 
     </p>
-    <a class="text-green-500 flex items-center hover:text-green-600" href="/">
+    <a class="text-green-500 flex items-center hover:text-green-600" href="https://www.cnil.fr/fr/reglement-europeen-protection-donnees#:~:text=La%20directive%2095%2F46%2FCE%20du%20Parlement%20europ%C3%A9en%20et%20du,personnel%20entre%20les%20%C3%89tats%20membres.">
       En apprendre d'avantage 
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -136,7 +136,7 @@ export default function About() {
       Nouvelle plateforme dynamic et contributive d'article litteraire 
       nous avons pour embitions de devenir le premier site d'avis detaillé sur l'ensemble des ouvrages de la littérature française.
     </p>
-    <a class="text-red-500 flex items-center hover:text-red-600" href="/">
+    <a class="text-red-500 flex items-center hover:text-red-600" href="/contact">
       Nous contacter 
       <svg
         xmlns="http://www.w3.org/2000/svg"
