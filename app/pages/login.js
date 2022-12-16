@@ -20,6 +20,7 @@ export default function Contact() {
       </Head>
       
       <Auth
+      
         supabaseClient={supabaseClient}
         appearance={{ theme: ThemeSupa }}
         providers={['github']}
