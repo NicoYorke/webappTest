@@ -8,7 +8,7 @@ import Comment from './Comment'
 
 
 
-export default function CommentList({comments, user }){ 
+export default function CommentList({comments, user}){ 
 
     
     return (
