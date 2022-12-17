@@ -5,6 +5,10 @@ import { supabase } from './api/supabase'
 import UserContext from '../components/UserContext'
 import { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router.js'
+import { Editor } from 'draft-js'
+import { EditorState } from 'draft-js'
+import ArticleList from '../components/ArticleList.js'
+
 
 
 
@@ -27,10 +31,20 @@ export async function getStaticProps(ctx) {
 
 export default function Articles({articles}) {
 
+  const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+
+  useEffect(() => { 
+    console.log(editorState);
+  }, [editorState])
+
   const [showModal, setShowModal] = useState(false);
-  const [showCommentModal, setShowCommentModal] = useState('false')
+  const [art, setArt] = useState('')
+  const [file, setFile] = useState()
+  
   const user = useContext(UserContext)
   let author;
+  let imageURL;
+
   const router = useRouter()
 
   const [title, setTitle] = useState('')
@@ -48,9 +62,18 @@ export default function Articles({articles}) {
         return
     }
 
-    const { data, error } = await supabase
+    let { data, error } = await supabase
         .from("article")
         .insert([{title, author, content}])
+        .select()
+
+
+
+
+    imageURL = data[0].id
+    
+
+    uploadImage(imageURL);
 
     if (error){ 
         console.log("Error happened")
@@ -84,6 +107,17 @@ export default function Articles({articles}) {
       return null
     }
   }
+
+
+  async function uploadImage(imageURL){ 
+
+    console.log("file :", file)
+    const {data, error} = await supabase
+    .storage
+    .from("test")
+    .upload("articles/"+imageURL, file)
+}
+
   
 
   return (
@@ -95,30 +129,7 @@ export default function Articles({articles}) {
       </Head>
       <main class="flex flex-col items-center justify-center flex-grow min-h-screen px-0 py-16 bg-slate-300" >
       <h1 class="flex items-center text-5xl font-extrabold dark:text-white">Articles<span class="bg-blue-100 text-blue-800 text-2xl font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-2">WebTech</span></h1>
-      <div class="grid my-0 mx-auto px-0 py-10 grid grid-cols-3 gap-4">
-          {articles.map(art =>
-          <div key={art.id} class="my-0 mx-5 px-0 py-10">
-            <div class="mx-auto">
-              <div class="rounded-lg shadow-lg bg-white">
-                <a href="#!" data-mdb-ripple="true" data-mdb-ripple-color="light">
-                </a>
-                
-                <div class="p-6 rounded-md transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-blue-100 duration-50">
-                  <h5 class="text-gray-900 text-xl font-medium mb-2" gutterBottom variant="h5" component="div"><Link href={`/articles/${art.id}`}>{art.title}</Link></h5>
-                  <p class="text-gray-700 text-base mb-4" variant="body2" color="text.secondary">
-                    {art.author}
-                  </p>
-                  <a style={{ "justify-content": "center" }}
-                     href={"/articles/" + art.id} size="small">voir plus
-                  </a>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        )}
-
-        </div>
+      <ArticleList articles={articles}></ArticleList>
         </main>
         <MyTest></MyTest>
 
@@ -147,6 +158,12 @@ export default function Articles({articles}) {
                 </div>
                 {/*body*/}
                 <div className="m-4">
+            <div className="my-3">
+            
+          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Select a picture for your article</label>
+          <input onChange={(e) => setFile(e.target.files[0])} class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file"/>
+
+            </div>
             <div class="w-1/2 mb-6">
                 <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">title</label>
                 <input 
@@ -159,6 +176,7 @@ export default function Articles({articles}) {
             </div>
             
             <div>
+              
                 <label for="content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Content</label>
                 <input 
                     type="text" 
@@ -195,7 +213,7 @@ export default function Articles({articles}) {
         </>
       ) : null}
         
-
+        <Editor editorState={editorState} onEditorStateChange={setEditorState}></Editor>
     </Layout>
   )
 }
