@@ -116,6 +116,7 @@ export default function Article({
       window.location.reload(false)
     }
     else{
+      console.log("error upload")
       createImage(articleID)
     }
   }
