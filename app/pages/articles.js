@@ -5,8 +5,8 @@ import { supabase } from './api/supabase'
 import UserContext from '../components/UserContext'
 import { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router.js'
-import { Editor } from 'draft-js'
-import { EditorState } from 'draft-js'
+//import { Editor } from 'draft-js'
+//import { EditorState } from 'draft-js'
 import ArticleList from '../components/ArticleList.js'
 
 
@@ -31,11 +31,11 @@ export async function getStaticProps(ctx) {
 
 export default function Articles({articles}) {
 
-  const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+  //const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
 
-  useEffect(() => { 
-    console.log(editorState);
-  }, [editorState])
+  // useEffect(() => { 
+  //   console.log(editorState);
+  // }, [editorState])
 
   const [showModal, setShowModal] = useState(false);
   const [art, setArt] = useState('')
@@ -213,7 +213,7 @@ export default function Articles({articles}) {
         </>
       ) : null}
         
-        <Editor editorState={editorState} onEditorStateChange={setEditorState}></Editor>
+        {/* <Editor editorState={editorState} onEditorStateChange={setEditorState}></Editor> */}
     </Layout>
   )
 }
