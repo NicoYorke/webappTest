@@ -6,7 +6,7 @@ import Button from "../components/Button";
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 
-export default function Header(){
+export default function Header() {
   const { systemTheme, theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -19,11 +19,11 @@ export default function Header(){
     { label: 'About', path: '/about' },
   ];
   const renderThemeChanger = () => {
-    if(!mounted) return null;
+    if (!mounted) return null;
 
     const currentTheme = theme === 'system' ? systemTheme : theme;
-    
-    if(currentTheme === 'dark') {
+
+    if (currentTheme === 'dark') {
       return (
         <Button className="bg-gray-200 dark:bg-gray-600"
           onClick={() => setTheme('light')}
@@ -47,9 +47,12 @@ export default function Header(){
 
   }
   return (
-    <header className="flex bg-slate-200 px-10 py-2">
+    <header className="flex bg-slate-400 px-10 py-2">
       <Link href={`/`} className="flex-grow flex items-center">
-        <Image src="/adaltas.svg" className='cursor-pointer h-6 mr-5' alt="Adaltas Logo" width={25} height={25} />
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+        </svg>
+
         <span className="rounded py-1 px-2 hover:bg-slate-600 hover:text-slate-100">
           Web technologies
         </span>
