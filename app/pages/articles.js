@@ -5,11 +5,7 @@ import { supabase } from './api/supabase'
 import UserContext from '../components/UserContext'
 import { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router.js'
-
 import ArticleList from '../components/ArticleList.js'
-
-
-
 
 
 export async function getStaticProps(ctx) {
