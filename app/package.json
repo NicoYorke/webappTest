@@ -29,6 +29,7 @@
     "react-gravatar": "^2.6.3",
     "tailwindcss-font-inter": "^3.0.1",
     "theme-change": "^2.2.0",
+    "tw-elements": "^1.0.0-alpha13",
     "webpack": "^5.75.0"
   },
   "devDependencies": {
