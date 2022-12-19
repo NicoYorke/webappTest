@@ -68,10 +68,12 @@ export default function Header() {
   return (
     <header className="flex bg-slate-400 px-10 py-2">
       <Link href={''} className="flex-grow flex items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+          <path fillRule="evenodd" d="M2.25 4.125c0-1.036.84-1.875 1.875-1.875h5.25c1.036 0 1.875.84 1.875 1.875V17.25a4.5 4.5 0 11-9 0V4.125zm4.5 14.25a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z" clipRule="evenodd" />
+          <path d="M10.719 21.75h9.156c1.036 0 1.875-.84 1.875-1.875v-5.25c0-1.036-.84-1.875-1.875-1.875h-.14l-8.742 8.743c-.09.089-.18.175-.274.257zM12.738 17.625l6.474-6.474a1.875 1.875 0 000-2.651L15.5 4.787a1.875 1.875 0 00-2.651 0l-.1.099V17.25c0 .126-.003.251-.01.375z" />
         </svg>
-        
+
+
         <select className="text-primary" data-choose-theme>
           <option className="text-primary" option value="">Default Value</option>
           {themeValues.map((value) => (
@@ -79,9 +81,7 @@ export default function Header() {
           ))}
         </select>
 
-        <span className="rounded py-1 px-2 hover:bg-slate-600 hover:text-slate-100">
-          Web technologies
-        </span>
+
       </Link>
       <ul className="flex gap-5">
         <li className="rounded py-1 px-2 hover:bg-slate-600 hover:text-slate-100">
