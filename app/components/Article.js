@@ -49,7 +49,7 @@ export default function Article({art, image}){
     }
 
     return(
-        <div key={art.id} class="my-0 mx-1 px-0 py-3 h-min break-inside-avoid rounded-lg bg-red transition ease-in-out delay-10 hover:scale-110 duration-50">
+        <div key={art.id} class="my-0 mx-1 px-0 py-3 h-min break-inside-avoid rounded-lg bg-red transition ease-in-out delay-10 hover:scale-105 duration-50">
              
             <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
                 <a href="#">
