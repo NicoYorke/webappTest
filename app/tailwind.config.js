@@ -5,6 +5,7 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
     "./node_modules/flowbite-react/**/*.js",
   ],
+  darkMode: 'class',
   theme: {
     extend: {},
   },
@@ -13,6 +14,7 @@ module.exports = {
     require('@tailwindcss/typography'),
     require('@tailwindcss/forms'),
     require("flowbite/plugin"),
+    require('daisyui'),
   ],
 }
 

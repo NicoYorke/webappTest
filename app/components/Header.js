@@ -5,10 +5,29 @@ import Login from './Login'
 import Button from "../components/Button";
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
+import { themeChange } from "theme-change";
 
-export default function Header(){
+export default function Header() {
   const { systemTheme, theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const themeValues = [
+
+    "Cupcake",
+    "Synthwave",
+    "Retro",
+    "Cyberpunk",
+    "Valentine",
+    "Halloween",
+    "Garden",
+    "Forest",
+    "Aqua",
+    "Pastel",
+    "Luxury",
+    "Dracula",
+  ]
+  useEffect(() => {
+    themeChange(false)
+  });
 
   useEffect(() => {
     setMounted(true);
@@ -19,11 +38,11 @@ export default function Header(){
     { label: 'About', path: '/about' },
   ];
   const renderThemeChanger = () => {
-    if(!mounted) return null;
+    if (!mounted) return null;
 
     const currentTheme = theme === 'system' ? systemTheme : theme;
-    
-    if(currentTheme === 'dark') {
+
+    if (currentTheme === 'dark') {
       return (
         <Button className="bg-gray-200 dark:bg-gray-600"
           onClick={() => setTheme('light')}
@@ -47,12 +66,22 @@ export default function Header(){
 
   }
   return (
-    <header className="flex bg-slate-200 px-10 py-2">
-      <Link href={`/`} className="flex-grow flex items-center">
-        <Image src="/adaltas.svg" className='cursor-pointer h-6 mr-5' alt="Adaltas Logo" width={25} height={25} />
-        <span className="rounded py-1 px-2 hover:bg-slate-600 hover:text-slate-100">
-          Web technologies
-        </span>
+    <header className="flex bg-slate-400 px-10 py-2">
+      <Link href={''} className="flex-grow flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+          <path fillRule="evenodd" d="M2.25 4.125c0-1.036.84-1.875 1.875-1.875h5.25c1.036 0 1.875.84 1.875 1.875V17.25a4.5 4.5 0 11-9 0V4.125zm4.5 14.25a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z" clipRule="evenodd" />
+          <path d="M10.719 21.75h9.156c1.036 0 1.875-.84 1.875-1.875v-5.25c0-1.036-.84-1.875-1.875-1.875h-.14l-8.742 8.743c-.09.089-.18.175-.274.257zM12.738 17.625l6.474-6.474a1.875 1.875 0 000-2.651L15.5 4.787a1.875 1.875 0 00-2.651 0l-.1.099V17.25c0 .126-.003.251-.01.375z" />
+        </svg>
+
+
+        <select className="text-primary" data-choose-theme>
+          <option className="text-primary" option value="">Default Value</option>
+          {themeValues.map((value) => (
+            <option className="text-primary" key={value.toLowerCase()} value={value.toLowerCase()}>{value}</option>
+          ))}
+        </select>
+
+
       </Link>
       <ul className="flex gap-5">
         <li className="rounded py-1 px-2 hover:bg-slate-600 hover:text-slate-100">
