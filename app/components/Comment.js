@@ -1,6 +1,7 @@
 import { useContext, useState } from "react"
 import UserContext from "./UserContext"
 import { supabase } from "../pages/api/supabase"
+import Gravatar from "react-gravatar"
 
 
 
@@ -13,6 +14,8 @@ export default function Comment({comment, user}){
     const [title, setTitle] = useState(comment.title)
     const [content, setContent] = useState(comment.content)
     const [formError, setFormError] = useState(null)
+
+    if (comment.authorEmail == null) comment.authorEmail = "unknown@unknown.com"
 
 
     const deleteSubmit = async (e) => {
@@ -85,8 +88,10 @@ export default function Comment({comment, user}){
 
     return (
         <div className='mx-5 my-5'>
-            
-              <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{comment.authorName} </label>
+          <div className="flex" >
+            <Gravatar className="rounded-3xl" email={comment.authorEmail}></Gravatar>
+              <label for="message" class="mb-1 mx-3 text-sm font-medium text-gray-900 dark:text-white flex items-center">{comment.authorName}</label>
+          </div>
             <div className="flex">
               <textarea id="message" value={content} rows="4" class="cursor-not-allowed block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
               <MyTest commentUserID={comment.authorID}></MyTest>
