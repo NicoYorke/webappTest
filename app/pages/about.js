@@ -13,7 +13,7 @@ export default function About() {
       </Head>
     
       
-      <div class="p-8">
+  {/* <div class="p-8">
   <div class="flex felx-col items-center justify-center">
     <span
       class="rounded-full bg-indigo-500 px-2 py-1 text-white uppercase text-sm"
@@ -28,130 +28,34 @@ export default function About() {
     Sur cette page vous pouvez en apprendre d'avantage par rapport à nos differents auteurs
   
   </p>
+</div> */}
+
+<div class="grid grid-cols-1 md:grid-cols-2 mb-20">
+<div className='px-10'>
+  <h1 class="mb-10 font-extrabold tracking-tight leading-none text-gray-900 text-5xl lg:text-6xl dark:text-white text-center">Who are we ?</h1>
+  
+  <p class="mb-10 text-lg font-light text-gray-800 md:text-xl dark:text-gray-400">We are young students from ECE Paris who aim to give a voice to everyone. On Sparticles, you can create an article and share your knowledge and your passions as soon as you have an account. </p>
+  <p class="mb-10 text-lg font-light text-gray-800 md:text-xl dark:text-gray-400">Once you have created an article, you will be able to see the feedback of other users who have read your article. Take them into consideration to improve your writing or to update your knowledge! </p>
+  <p class="mb-10 text-lg font-light text-gray-800 md:text-xl dark:text-gray-400">As a next step, read the articles that are continuously posted and comment on the articles of other users to give them constructive feedback.</p>
+
+
+</div>
+<img class="rounded-lg w-full" src="/images/articles.jpg" alt="" />
+ 
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-3">
-  <div class="p-8">
-    <div
-      class="bg-indigo-100 rounded-full w-16 h-16 flex justify-center items-center text-indigo-500 shadow-2xl"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-8 w-8"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-          clip-rule="evenodd"
-        />
-      </svg>
-    </div>
-    <h2 class="uppercase mt-6 text-indigo-500 font-medium mb-3">
-      Convention social
-    </h2>
-    <p class="font-light text-sm text-gray-500 mb-3">
-      La politique social de notre site tourne autours du bien être de nos lecteurs.
-      En conséquence les commentaire ou artcicle haineux seront automatiquement supprimé. 
-    </p>
-    <a class="text-indigo-500 flex items-center hover:text-indigo-600" href="https://www.convention.fr/actualites/conventions-collectives-organismes-sociaux-132">
-      Voir les conventions
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-5 w-5"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-          clip-rule="evenodd"
-        />
-      </svg>
-    </a>
-  </div>
+<div class="grid grid-cols-1 md:grid-cols-2">
+<img class="rounded-lg w-full" src="/images/journalism.jpg" alt="" />
+<div className='px-10'>
+  <h1 class="mb-10 font-extrabold tracking-tight leading-none text-gray-900 text-5xl lg:text-6xl dark:text-white text-center">How does the site work ?</h1>
+  
+  <p class="mb-10 text-lg font-light text-gray-800 md:text-xl dark:text-gray-400">On Sparticles, you can create an article only and only if you are authenticated. Once done, you can add, edit, and delete your articles.</p>
+  <p class="mb-10 text-lg font-light text-gray-800 md:text-xl dark:text-gray-400">At Sparticles, we advocate freedom of expression within a constructive framework, without violent or hateful speech, and that's why you can read and comment on articles for free, without being authenticated.</p>
+  <p class="mb-10 text-lg font-light text-gray-800 md:text-xl dark:text-gray-400">Do not hesitate to contact us if you have any concerns or questions regarding the operation of the site and its terms of use.</p>
 
-  <div class="p-8">
-    <div
-      class="bg-green-100 rounded-full w-16 h-16 flex justify-center items-center text-green-500 shadow-2xl"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-8 w-8"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-          clip-rule="evenodd"
-        />
-      </svg>
-    </div>
-    <h2 class="uppercase mt-6 text-green-500 font-medium mb-3">
-      Protection de vos donnée
-    </h2>
-    <p class="font-light text-sm text-gray-500 mb-3">
-      Sur notre platforme vos donnée personnel sont intégralement protéger et confidentiel.
-      conforùmement à la loi nous garrentissons que nous ne les sauvegardons pas. 
-    </p>
-    <a class="text-green-500 flex items-center hover:text-green-600" href="https://www.cnil.fr/fr/reglement-europeen-protection-donnees#:~:text=La%20directive%2095%2F46%2FCE%20du%20Parlement%20europ%C3%A9en%20et%20du,personnel%20entre%20les%20%C3%89tats%20membres.">
-      En apprendre d'avantage 
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-5 w-5"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-          clip-rule="evenodd"
-        />
-      </svg>
-    </a>
-  </div>
-  <div class="p-8">
-    <div
-      class="bg-red-100 rounded-full w-16 h-16 flex justify-center items-center text-red-500 shadow-2xl"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-8 w-8"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-          clip-rule="evenodd"
-        />
-      </svg>
-    </div>
-    <h2 class="uppercase mt-6 text-red-500 font-medium mb-3">
-      Qui nous sommes
-    </h2>
-    <p class="font-light text-sm text-gray-500 mb-3">
-      Nouvelle plateforme dynamic et contributive d'article litteraire 
-      nous avons pour embitions de devenir le premier site d'avis detaillé sur l'ensemble des ouvrages de la littérature française.
-    </p>
-    <a class="text-red-500 flex items-center hover:text-red-600" href="/contact">
-      Nous contacter 
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-5 w-5"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-          clip-rule="evenodd"
-        />
-      </svg>
-    </a>
-  </div>
+</div>
+
+ 
 </div>
 
 
