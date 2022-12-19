@@ -5,10 +5,29 @@ import Login from './Login'
 import Button from "../components/Button";
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
+import { themeChange } from "theme-change";
 
 export default function Header() {
   const { systemTheme, theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const themeValues = [
+
+    "Cupcake",
+    "Synthwave",
+    "Retro",
+    "Cyberpunk",
+    "Valentine",
+    "Halloween",
+    "Garden",
+    "Forest",
+    "Aqua",
+    "Pastel",
+    "Luxury",
+    "Dracula",
+  ]
+  useEffect(() => {
+    themeChange(false)
+  });
 
   useEffect(() => {
     setMounted(true);
@@ -48,10 +67,17 @@ export default function Header() {
   }
   return (
     <header className="flex bg-slate-400 px-10 py-2">
-      <Link href={`/`} className="flex-grow flex items-center">
+      <Link href={''} className="flex-grow flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
         </svg>
+        
+        <select className="text-primary" data-choose-theme>
+          <option className="text-primary" option value="">Default Value</option>
+          {themeValues.map((value) => (
+            <option className="text-primary" key={value.toLowerCase()} value={value.toLowerCase()}>{value}</option>
+          ))}
+        </select>
 
         <span className="rounded py-1 px-2 hover:bg-slate-600 hover:text-slate-100">
           Web technologies
