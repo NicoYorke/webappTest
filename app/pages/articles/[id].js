@@ -39,13 +39,14 @@ export default function Article({
   const handleSubmit = async (e) => {
 
     const articleID = article.id
-    let authorID;
-    let authorName;
+    let authorID, authorName, authorEmail
     if (user) {
       authorName = user.email
+      authorEmail = user.email
     }
     else {
       authorName = "Unknown"
+      authorEmail = null
     }
 
     if (user) {
@@ -65,7 +66,7 @@ export default function Article({
 
     const { data, error } = await supabase
       .from("comments")
-      .insert({ title, authorName, content, articleID, authorID })
+      .insert({ title, authorName, content, articleID, authorID, authorEmail })
 
     if (error) {
       console.log("Error happened : ", error)
