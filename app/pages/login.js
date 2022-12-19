@@ -12,25 +12,6 @@ export default function Contact() {
   const { user } = useContext(UserContext)
   const router = useRouter()
   const supabaseClient = useSupabaseClient()
-
-  async function createUser(){
-    const name = "Nicolas YORKE"
-    const email = "yorke.nicolas.ece@gmail.com"
-    const password = "tennis0512"
-
-    const { user, session, error } = await supabase.auth.signUp(
-      {
-        email: 'example@email.com',
-        password: 'example-password',
-      },
-      {
-        data: { 
-          first_name: 'John', 
-          age: 27,
-        }
-      }
-    )
-  }
   
   if(user) router.push('/profile')
   return (
@@ -45,7 +26,7 @@ export default function Contact() {
       <h1 className='wt-title '>
         Sign in/log in
       </h1>
-      <form className="w-4/5 text-center bg-white border rounded-lg shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+      <div className="w-4/5 text-center bg-white border rounded-lg shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
       
       <Auth
       
@@ -53,7 +34,7 @@ export default function Contact() {
         appearance={{ theme: ThemeSupa }}
         providers={['github']}
        />
-       </form>
+       </div>
        </main>
     </Layout>
   )
