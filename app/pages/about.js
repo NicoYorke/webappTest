@@ -12,23 +12,6 @@ export default function About() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
     
-      
-  {/* <div class="p-8">
-  <div class="flex felx-col items-center justify-center">
-    <span
-      class="rounded-full bg-indigo-500 px-2 py-1 text-white uppercase text-sm"
-    >
-      Bienvenue
-    </span>
-  </div>
-  <h1 class="text-4xl font-medium text-gray-700 text-center mt-6">
-    A propos de nous et de notre manière de faire.
-  </h1>
-  <p class="text-center mt-6 text-lg font-light text-gray-500">
-    Sur cette page vous pouvez en apprendre d'avantage par rapport à nos differents auteurs
-  
-  </p>
-</div> */}
 
 <div class="grid grid-cols-1 md:grid-cols-2 mb-20">
 <div className='px-10'>
