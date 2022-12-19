@@ -116,7 +116,7 @@ export default function Articles({articles}) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main class="flex flex-col items-center justify-center flex-grow min-h-screen px-0 py-16 bg-slate-300" >
-      <h1 class="flex items-center text-5xl font-extrabold dark:text-white">Articles<span class="bg-blue-100 text-blue-800 text-2xl font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-2">WebTech</span></h1>
+      <h1 class="flex mb-10 items-center text-5xl font-extrabold dark:text-white">Articles</h1>
       <ArticleList articles={articles}></ArticleList>
         </main>
         <MyTest></MyTest>
