@@ -7,6 +7,7 @@ import UserContext from '../../components/UserContext.js'
 import { useRouter } from 'next/router.js'
 import { redirect } from 'next/dist/server/api-utils/index.js'
 import CommentList from '../../components/CommentList.js'
+import Gravatar from 'react-gravatar'
 
 
 
@@ -203,7 +204,7 @@ export default function Article({
           </p>
         </blockquote>
         <figcaption class="flex justify-center items-center mt-6 space-x-3">
-          <img class="w-6 h-6 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gouch.png" alt="profile picture"></img>
+          <Gravatar className='rounded-3xl' email="blahblah@email.fr"></Gravatar>
           <div class="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
             <cite class="pr-3 font-medium text-gray-900 dark:text-white"> {article.title}</cite>
             <cite class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400"> {article.author}</cite>
@@ -214,7 +215,7 @@ export default function Article({
 
       <div className='flex py-9 bg-slate-300 justify-end'>
         <button
-          className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 bg-slate-400"
+          className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
           type="button"
           onClick={() => setShowModal(true)}
         >

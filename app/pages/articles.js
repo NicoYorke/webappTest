@@ -6,32 +6,26 @@ import UserContext from '../components/UserContext'
 import { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router.js'
 import ArticleList from '../components/ArticleList.js'
-
-
-export async function getStaticProps(ctx) {
-  let articles = []
-  let { data, error, status } = await supabase
-    .from('article')
-    .select()
-    
-  if (!error) articles = data // handle errors
-  return {
-    props: {
-      articles: articles
-    }
-  };
-}
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useUser } from '@supabase/auth-helpers-react'
 
 
 
-export default function Articles({articles}) {
+export default function Articles() {
 
+
+  const supabaseClient = useSupabaseClient()
+  const user = useUser()
+  
+  const [articles, setArticles] = useState([])
+
+  
 
   const [showModal, setShowModal] = useState(false);
   const [art, setArt] = useState('')
   const [file, setFile] = useState()
   
-  const user = useContext(UserContext)
+  //const user = useContext(UserContext)
   let author;
   let imageURL;
 
@@ -43,21 +37,22 @@ export default function Articles({articles}) {
   const [formError, setFormError] = useState(null)
 
   const handleSubmit = async (e) => { 
-    author = user.user.email
-    console.log("author :", user.user.email)
     e.preventDefault()
+    if(user) author = user.email
+
+    
 
     if(!title || !content){
         setFormError("Please fill all of the fields")
         return
     }
 
-    let { data, error } = await supabase
+    let { data, error } = await supabaseClient
         .from("article")
         .insert([{title, author, content}])
         .select()
 
-
+    console.log(error)
     imageURL = data[0].id
     
     if(file)
@@ -72,10 +67,22 @@ export default function Articles({articles}) {
         setShowModal(false)
         setTitle('')
         setContent('')
-        router.push('/articles')
+        window.location.reload(false)
     }
 }
 
+  useEffect(() =>{
+    
+    console.log("run a lot")
+    async function fetchArticles(){ 
+      const { data, error } = await supabaseClient.from('article').select()
+      if(error) console.log(error)
+      setArticles(data)
+    }
+    fetchArticles()
+  }, [])
+
+  
 
   function MyTest(){
   
@@ -117,6 +124,7 @@ export default function Articles({articles}) {
       </Head>
       <main class="flex flex-col items-center justify-center flex-grow min-h-screen px-0 py-16 bg-slate-300" >
       <h1 class="flex mb-10 items-center text-5xl font-extrabold dark:text-white">Articles</h1>
+      
       <ArticleList articles={articles}></ArticleList>
         </main>
         <MyTest></MyTest>
@@ -204,7 +212,9 @@ export default function Articles({articles}) {
         
     </Layout>
   )
+  
 }
+
 
 
 

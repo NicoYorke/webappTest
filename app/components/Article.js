@@ -53,7 +53,8 @@ export default function Article({art, image}){
              
             <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
                 <a href="#">
-                    <img class="rounded-t-lg w-full" src={`https://hisvmczmnmlimhtxqhvl.supabase.co/storage/v1/object/public/test/articles/${art.id}?${new Date().getMilliseconds()}`} alt="" />
+                    {/* <img class="rounded-t-lg w-full" src={`https://hisvmczmnmlimhtxqhvl.supabase.co/storage/v1/object/public/test/articles/${art.id}?${new Date().getMilliseconds()}`} alt="" /> */}
+                    <img class="rounded-t-lg w-full" src={`https://hisvmczmnmlimhtxqhvl.supabase.co/storage/v1/object/public/test/articles/${art.id}`} alt="" />
                 </a>
                 <div class="p-5">
                     

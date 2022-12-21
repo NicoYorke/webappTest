@@ -29,22 +29,22 @@ export default function Home() {
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 mb-5 p-4 gap-5">
             <div className='relative hover:scale-105 duration-50 transition ease-in-out'>
-              <a href="/articles">
+              <Link href="/articles">
               <img className='hover:bg-black' src="/images/articles.jpg" alt=""/>
               <h2 class="block top-1/2 absolute font-extrabold tracking-tight leading-none text-gray-100 text-5xl lg:text-6xl dark:text-white">Articles</h2>
-              </a>
+              </Link>
             </div>
             <div className='relative hover:scale-105 duration-50 transition ease-in-out'>
-              <a href="/about">
+              <Link href="/about">
               <img src="/images/computer-using.jfif" alt=""/>
                 <h2 class="block top-1/2 absolute font-extrabold tracking-tight leading-none text-gray-100 text-5xl lg:text-6xl dark:text-white">About us</h2>
-              </a>
+              </Link>
             </div>
             <div className='relative hover:scale-105 duration-50 transition ease-in-out'>
-              <a href="/contact">
+              <Link href="/contact">
               <img src="/images/happy.jpg" alt=""/>
                 <h2 class="block top-1/2 absolute font-extrabold tracking-tight leading-none text-gray-100 text-5xl lg:text-6xl dark:text-white">Contact us</h2>
-              </a>
+              </Link>
             </div>
           </div>
         </main>

@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from 'react'
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
+import { supabase } from '../pages/api/supabase'
 
 const UserContext = createContext()
 
@@ -16,8 +17,11 @@ export function UserContextProvider({
     if (supabaseUser) {
       setUser(supabaseUser)
       setLoading(false)
+      
     } 
   }, [supabaseUser])
+
+
   return (
     <UserContext.Provider
       value={{

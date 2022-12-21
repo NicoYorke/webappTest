@@ -13,7 +13,16 @@ export default function Contact() {
   const router = useRouter()
   const supabaseClient = useSupabaseClient()
   
-  if(user) router.push('/profile')
+  if(user){
+    router.push('/profile')
+  }
+
+  async function connect(){ 
+    const {data, error} = await supabase.auth.signInWithPassword({email: "yorke.nicolas@gmail.com", password:"nicolas"})
+  }
+  async function disconnect(){ 
+    await supabase.auth.signOut()
+  }
   return (
     <Layout>
       <Head>
@@ -27,7 +36,8 @@ export default function Contact() {
         Sign in/log in
       </h1>
       <div className="w-4/5 text-center bg-white border rounded-lg shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-      
+      <button onClick={connect}>CONNECT !</button>
+      <button onClick={disconnect}>DISCONNECT !</button>
       <Auth
       
         supabaseClient={supabaseClient}
