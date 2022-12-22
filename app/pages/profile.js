@@ -5,6 +5,7 @@ import Layout from '../components/Layout.js'
 import UserContext from '../components/UserContext'
 import Gravatar from 'react-gravatar'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import ArticlesProfile from '../components/ArticlesProfile.js'
 
 
 
@@ -18,11 +19,15 @@ export default function Contact(actualUser) {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   
   useEffect(() => {
-    getActualUser();
+    
     if (!(user || loading)) {
       router.push('/login')
+    }
+    else{ 
+      getActualUser();
     }
 
   }, [user, loading, router])
@@ -30,7 +35,26 @@ export default function Contact(actualUser) {
 
   async function getActualUser(){
     
-    if(user){
+    if(router.query.userID){
+      const {data, error, status} = await supabaseClient
+      .from("profiles")
+      .select()
+      .eq("id", router.query.userID)
+      .single()
+
+
+      if(data){ 
+        console.log("data: ",data)
+        setFirstName(data.first_name)
+        setLastName(data.last_name)
+        setEmail(user.email)
+        setUsername(user.username)
+      }
+      else{ 
+        console.log("error:", error)
+      }
+    }
+    else if(user){
       const {data, error, status} = await supabaseClient
       .from("profiles")
       .select()
@@ -43,9 +67,10 @@ export default function Contact(actualUser) {
         setFirstName(data.first_name)
         setLastName(data.last_name)
         setEmail(user.email)
+        setUsername(data.username)
       }
       else{ 
-        console.log(error)
+        console.log("error:", error)
       }
     }
   }
@@ -58,7 +83,7 @@ export default function Contact(actualUser) {
     console.log("handle entered")
     const { data, error } = await supabaseClient
     .from('profiles')
-    .update({ first_name: firstName, last_name: lastName })
+    .update({ first_name: firstName, last_name: lastName, username: username })
     .match({ id: user.id })
 
 
@@ -84,7 +109,7 @@ export default function Contact(actualUser) {
   }
 
 
-
+if(!router.query.userID){
   return (
     <Layout>
       <Head>
@@ -96,7 +121,7 @@ export default function Contact(actualUser) {
         <p>Redirecting...</p>
         :
         <>
-        <p>{JSON.stringify(user)}</p>
+         <p>{JSON.stringify(user.created)}</p>
           <button
             className="rounded px-3 py-2 text-white bg-slate-500 hover:bg-blue-500"
             onClick={onClickLogout}
@@ -106,36 +131,104 @@ export default function Contact(actualUser) {
         <main className='p-5 bg-slate-300'>
       <div className='flex'>
         <div className='w-1/4 bg-white p-7 rounded-xl text-center'>
-            <Gravatar className="items-center inline-block" email="yorke.nicolas@gmail.com" size={150}></Gravatar>
+            <Gravatar className="items-center inline-block rounded-lg" email={user.email} size={150}></Gravatar>
+            <p>{firstName} {lastName}</p>
+            <p className='my-3'>@{username}</p>
         </div>
 
           <div className='w-3/4 mx-3 bg-white p-7 rounded-xl'>
             <form onSubmit={handleSubmit}>
-              <div class="relative z-0 mb-2 w-full group">
+              <div class="relative z-0 mb-4 w-full group">
                   <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" name="floating_email" id="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                   <label for="floating_email" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email address</label>
               </div>
-              <div class="relative z-0 mb-2 w-full group">
-                  <input type="password" name="floating_password" id="floating_password" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
-                  <label for="floating_password" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
-              </div>
-              <div class="relative z-0 mb-2 w-full group">
-                  <input type="password" name="repeat_password" id="floating_repeat_password" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
-                  <label for="floating_repeat_password" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Confirm password</label>
-              </div>
+              
+              
               
                 <div class="relative z-0 mb-2 w-full group">
-                    <input value={firstName} onChange={(e) => setFirstName(e.target.value)} type="text" name="floating_first_name" id="floating_first_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                    <input value={firstName} onChange={(e) => setFirstName(e.target.value)} type="text" name="floating_first_name" id="floating_first_name" class=" cursor-not-allowed block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                     <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
                 </div>
+                
                 <div class="relative z-0 mb-2 w-full group">
                     <input value={lastName} onChange={(e) => setLastName(e.target.value)} type="text" name="floating_last_name" id="floating_last_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                     <label for="floating_last_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last name</label>
                 
               </div>
+              <div class="relative z-0 mb-2 w-full group">
+                    <input value={username} onChange={(e) => setUsername(e.target.value)} type="text" name="floating_first_name" id="floating_first_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                    <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
+                </div>
               
               <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
             </form>
+          </div>
+        </div>
+        <div className='flex my-3 h-96'>
+          <div className='w-1/3 bg-white p-5 rounded-xl'>
+            <ul class="w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+              <li class="py-5 px-2 h-1/5 w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600">Twitter
+            </li>
+              <li class="py-5 px-2 w-full border-b border-gray-200 dark:border-gray-600">Instagram</li>
+              <li class="py-5 px-2 w-full border-b border-gray-200 dark:border-gray-600">Facebook</li>
+              <li class="py-5 px-2 w-full border-b border-gray-200 dark:border-gray-600">LinkedIn</li>
+              <li class="py-5 px-2 w-full border-b border-gray-200 dark:border-gray-600">GitHub</li>
+            </ul>
+          </div> 
+        <div className='w-1/3 mx-3 bg-white p-3 rounded-xl text-center max-h-screen overflow-y-auto'>
+        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-2xl dark:text-white">My articles</h1>
+
+            <ArticlesProfile userID={user.id}></ArticlesProfile>
+            
+        </div>
+
+          <div className='w-1/3 bg-white p-3 rounded-xl text-center'>
+          <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-2xl dark:text-white">My comments</h1>
+          </div>
+          
+        </div>
+
+       </main>
+
+          
+        </>
+      }
+    </Layout>
+  )}
+
+  else{ 
+    return (
+      <Layout>
+      <Head>
+        <title>WebTech - user signedin</title>
+        <meta name="description" content="Generated by create next app" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      { !(user || loading) ?
+        <p>Redirecting...</p>
+        :
+        <>
+        <main className='p-5 bg-slate-300'>
+      <div className='flex'>
+        <div className='w-1/4 bg-white p-7 rounded-xl text-center'>
+            <Gravatar className="items-center inline-block rounded-lg" email={user.email} size={150}></Gravatar>
+            <p>{firstName} {lastName}</p>
+            <p className='my-3'>@{username}</p>
+        </div>
+
+          <div className='w-3/4 mx-3 bg-white p-7 rounded-xl'>
+              <div class="relative z-0 mb-2 w-full group">
+                <label for="floating_email">First Name</label>
+                <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value={firstName} disabled></input>
+              </div>
+              <div class="relative z-0 mb-2 w-full group">
+              <label for="floating_email">Last name</label>
+                <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value={firstName} disabled></input>
+              </div>
+              <div class="relative z-0 mb-2 w-full group">
+                <label for="floating_email">Username</label>                
+                <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value={username} disabled></input>
+              </div>            
           </div>
         </div>
         <div className='flex my-3'>
@@ -149,46 +242,23 @@ export default function Contact(actualUser) {
             <li class="py-5 px-2 w-full border-b border-gray-200 dark:border-gray-600">GitHub</li>
           </ul>
         </div> 
-        <div className='w-1/3 mx-3 bg-white p-7 rounded-xl text-center'>
-            <Gravatar className="items-center inline-block" email="yorke.nicolas@gmail.com" size={150}></Gravatar>
+        <div className='w-1/3 mx-3 bg-white p-3 rounded-xl text-center max-h-screen overflow-y-auto'>
+        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-2xl dark:text-white">Articles</h1>
+
+            <ArticlesProfile userID={router.query.userID}></ArticlesProfile>
+            
         </div>
 
-          <div className='w-1/3 bg-white p-7 rounded-xl'>
-            <form onSubmit={handleSubmit}>
-              <div class="relative z-0 mb-2 w-full group">
-                  <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" name="floating_email" id="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                  <label for="floating_email" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email address</label>
-              </div>
-              <div class="relative z-0 mb-2 w-full group">
-                  <input type="password" name="floating_password" id="floating_password" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
-                  <label for="floating_password" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
-              </div>
-              <div class="relative z-0 mb-2 w-full group">
-                  <input type="password" name="repeat_password" id="floating_repeat_password" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
-                  <label for="floating_repeat_password" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Confirm password</label>
-              </div>
-              
-                <div class="relative z-0 mb-2 w-full group">
-                    <input value={firstName} onChange={(e) => setFirstName(e.target.value)} type="text" name="floating_first_name" id="floating_first_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                    <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
-                </div>
-                <div class="relative z-0 mb-2 w-full group">
-                    <input value={lastName} onChange={(e) => setLastName(e.target.value)} type="text" name="floating_last_name" id="floating_last_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                    <label for="floating_last_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last name</label>
-                
-              </div>
-              
-              <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-            </form>
+          <div className='w-1/3 bg-white p-7 rounded-xl text-center'>
+          <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-2xl dark:text-white">Comments</h1>
           </div>
           
         </div>
 
        </main>
-
-          
         </>
       }
     </Layout>
-  )
+    )
+  }
 }
