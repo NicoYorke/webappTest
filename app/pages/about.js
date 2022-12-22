@@ -33,7 +33,7 @@ export default function About() {
   <h1 class="mb-10 font-extrabold tracking-tight leading-none text-gray-900 text-5xl lg:text-6xl dark:text-white text-center">How does the site work ?</h1>
   
   <p class="mb-10 text-lg font-light text-gray-800 md:text-xl dark:text-gray-400">On Sparticles, you can create an article only and only if you are authenticated. Once done, you can add, edit, and delete your articles.</p>
-  <p class="mb-10 text-lg font-light text-gray-800 md:text-xl dark:text-gray-400">At Sparticles, we advocate freedom of expression within a constructive framework, without violent or hateful speech, and that's why you can read and comment on articles for free, without being authenticated.</p>
+  <p class="mb-10 text-lg font-light text-gray-800 md:text-xl dark:text-gray-400">At Sparticles, we advocate freedom of expression within a constructive framework, without violent or hateful speech, and that is why you can read and comment on articles for free, without being authenticated.</p>
   <p class="mb-10 text-lg font-light text-gray-800 md:text-xl dark:text-gray-400">Do not hesitate to contact us if you have any concerns or questions regarding the operation of the site and its terms of use.</p>
 
 </div>
