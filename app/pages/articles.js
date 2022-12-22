@@ -8,6 +8,7 @@ import { useRouter } from 'next/router.js'
 import ArticleList from '../components/ArticleList.js'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useUser } from '@supabase/auth-helpers-react'
+import { Dropdown } from 'flowbite-react'
 
 
 
@@ -26,10 +27,12 @@ export default function Articles() {
   const [file, setFile] = useState()
   
   //const user = useContext(UserContext)
-  let author;
+  let author, author_id
   let imageURL;
 
   const router = useRouter()
+
+  const par = router.query
 
   const [title, setTitle] = useState('')
   
@@ -38,7 +41,10 @@ export default function Articles() {
 
   const handleSubmit = async (e) => { 
     e.preventDefault()
-    if(user) author = user.email
+    if(user) {
+     author = user.email
+     author_id = user.id
+  }
 
     
 
@@ -49,14 +55,22 @@ export default function Articles() {
 
     let { data, error } = await supabaseClient
         .from("article")
-        .insert([{title, author, content}])
+        .insert([{title, author, content, author_id}])
         .select()
 
     console.log(error)
     imageURL = data[0].id
+
+    if(file){
+      console.log("file :", file)
+      const {data, error} = await supabaseClient
+      .storage
+      .from("test")
+      .upload("articles/"+imageURL, file)
+
+      if(data) console.log("image uploaded: ", data)
+    }
     
-    if(file)
-      uploadImage(imageURL);
 
     if (error){ 
         console.log("Error happened")
@@ -91,11 +105,11 @@ export default function Articles() {
     if(user){ 
       return (
       <button
-          className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+          className="bg-gray-300 text-pink active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
           type="button"
           onClick={() => setShowModal(true)}
         >
-          Add a new comment
+          Add a new article
         </button>    )
     }
     else{ 
@@ -106,11 +120,7 @@ export default function Articles() {
 
   async function uploadImage(imageURL){ 
 
-    console.log("file :", file)
-    const {data, error} = await supabase
-    .storage
-    .from("test")
-    .upload("articles/"+imageURL, file)
+
 }
 
   
@@ -123,11 +133,22 @@ export default function Articles() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main class="flex flex-col items-center justify-center flex-grow min-h-screen px-0 py-16 bg-slate-300" >
-      <h1 class="flex mb-10 items-center text-5xl font-extrabold dark:text-white">Articles</h1>
+      
+        <h1 class="flex mb-10 items-center text-5xl font-extrabold dark:text-white">Articles</h1>
+        
+
+        <div className="editor">
+        </div>
+        <p>{par.myParam}</p>
+        <MyTest></MyTest>
+        
+        
+
+      
       
       <ArticleList articles={articles}></ArticleList>
         </main>
-        <MyTest></MyTest>
+        
 
         {showModal ? (
         <>
