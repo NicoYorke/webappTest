@@ -8,6 +8,9 @@ import { useRouter } from 'next/router.js'
 import { redirect } from 'next/dist/server/api-utils/index.js'
 import CommentList from '../../components/CommentList.js'
 import Gravatar from 'react-gravatar'
+import { SupabaseClient } from '@supabase/supabase-js'
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import Link from 'next/link.js'
 
 
 
@@ -18,11 +21,10 @@ export default function Article({
   const [showModal, setShowModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false)
+  const supabaseClient = useSupabaseClient()
 
   const [file, setFile] = useState()
   
-  const route = useRouter();
-
   const [commentModal, setCommentModal] = useState(false);
   const a = 1
 
@@ -40,7 +42,7 @@ export default function Article({
   const handleSubmit = async (e) => {
 
     const articleID = article.id
-    let authorID, authorName, authorEmail
+    let author_id, authorName, authorEmail
     if (user) {
       authorName = user.email
       authorEmail = user.email
@@ -51,11 +53,11 @@ export default function Article({
     }
 
     if (user) {
-      authorID = user.id
-      console.log("authorID : ", authorID)
+      author_id = user.id
+      console.log("author_id : ", author_id)
     }
     else {
-      authorID = null
+      author_id = null
     }
 
     e.preventDefault()
@@ -65,9 +67,9 @@ export default function Article({
       return
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from("comments")
-      .insert({ title, authorName, content, articleID, authorID, authorEmail })
+      .insert({ title, authorName, content, articleID, author_id, authorEmail })
 
     if (error) {
       console.log("Error happened : ", error)
@@ -76,6 +78,10 @@ export default function Article({
       console.log("Data :", data)
       setFormError(null)
       window.location.reload(false)
+    }
+
+    if(file){ 
+      uploadImage(article.id)
     }
   }
 
@@ -87,7 +93,7 @@ export default function Article({
         return
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
         .from("article")
         .update({content: articleContent, title: articleTitle})
         .eq('id', article.id)
@@ -127,7 +133,7 @@ export default function Article({
 
   async function uploadImage(articleID){ 
     console.log("file id: ", file )
-    let { data, error } = await supabase
+    let { data, error } = await supabaseClient
       .storage
       .from("test")
       .update("articles/"+articleID, file, {
@@ -156,12 +162,13 @@ export default function Article({
 
   }
 
- 
   function MyTest({commentUserID}){
-    const user = useContext(UserContext)
-
+    if(user){
+      console.log("articleID:", commentUserID)
+      console.log("actualUserID:", user.id)
+    if(user.id == commentUserID){
     return (
-      <div>
+      <div className='my-4'>
       <button
           className="bg-blue-600 text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
           type="button"
@@ -177,7 +184,10 @@ export default function Article({
           Delete the article
         </button>
       </div>
-    )
+    )}
+    else{
+      return(null)
+    }}
    
     
   }
@@ -192,36 +202,35 @@ export default function Article({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1 className='text-4xl flex justify-center py-9  bg-slate-300'>
-       
-     
 
-      <figure class="mx-auto max-w-screen-md text-center">
-        <svg aria-hidden="true" class="mx-auto mb-3 w-12 h-12 text-gray-400 dark:text-gray-600" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z" fill="currentColor" /></svg>
-        <blockquote>
-          <p className='text-2xl italic font-medium text-gray-900 dark:text-white bg-slate-300'>
-            {article.content}
-          </p>
-        </blockquote>
-        <figcaption class="flex justify-center items-center mt-6 space-x-3">
-          <Gravatar className='rounded-3xl' email="blahblah@email.fr"></Gravatar>
-          <div class="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
-            <cite class="pr-3 font-medium text-gray-900 dark:text-white"> {article.title}</cite>
-            <cite class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400"> {article.author}</cite>
-          </div>
-        </figcaption>
-      </figure>
- </h1>
 
-      <div className='flex py-9 bg-slate-300 justify-end'>
-        <button
-          className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-          type="button"
-          onClick={() => setShowModal(true)}
-        >
-          Add a new comment
-        </button>
-        <MyTest></MyTest>
+      <div className='flex py-9 bg-slate-300'>
+        <div className='w-1/3 mx-10'>
+          <img className='hover:bg-black' src={`https://hisvmczmnmlimhtxqhvl.supabase.co/storage/v1/object/public/test/articles/${article.id}`} alt=""/>
+        </div>
+
+        <div className='w-2/3 flex-wrap'>
+
+        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-5xl dark:text-white text-center">{article.title}</h1>
+        <h3 class="text-3xl font-bold dark:text-white text-center my-6">La suprématie de larmée Allemande sur la seconde guerre Mondiale qui s&apos;est déroulée de 1939 à 1945</h3>
+            
+              <figure class="mx-auto max-w-screen-md text-center">
+            
+                <figcaption class="flex justify-center items-center mt-6 space-x-3">
+                  <Gravatar className='rounded-3xl' email="blahblah@email.fr"></Gravatar>
+                  <div class="flex items-center divide-x-0 divide-gray-500 dark:divide-gray-700">
+                    <Link href={{pathname:"/profile",query:{userID:article.author_id}}} class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">{article.author}</Link>
+                  </div>
+                </figcaption>
+                <MyTest commentUserID={article.author_id}></MyTest>
+              </figure>
+              
+          
+        </div>
+      </div>
+      <div className='border-solid border-2  my-5 rounded-md py-9 px-9 border-black'>
+        <p class="mb-3 font-light text-gray-900 dark:text-gray-400 first-line:uppercase first-line:tracking-widest first-letter:text-7xl first-letter:font-bold first-letter:text-gray-900 dark:first-letter:text-gray-100 first-letter:mr-3 first-letter:float-left">{article.content}</p>
+
       </div>
       
 
@@ -287,7 +296,7 @@ export default function Article({
                       type="submit"
                     //onClick={() => setShowModal(false)}
                     >
-                      Add the article
+                      Add the comment
                     </button>
                   </div>
                 </div>
@@ -302,7 +311,7 @@ export default function Article({
         <>
         <form onSubmit={handleUpdate}>
           <div
-            className="justify-center items-center flex fixed inset-0 z-50 outline-none focus:outline-none"
+            className="justify-center items-center flex fixed inset-0 z-50 outline-none focus:outline-none bg-slate-300"
           >
             <div className="relative my-6 max-w-3xl w-3/4">
               {/*content*/}
@@ -431,6 +440,19 @@ export default function Article({
         <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
       </>
       ) : null }
+
+    <hr class="my-12 h-px bg-black border-2 w-3/4 mx-auto"></hr>
+
+    <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-5xl dark:text-white text-center">Comments</h1>
+    <div className="test">
+      <button
+            className="bg-gray-300 mx-auto text-pink active:bg-black font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+            type="button"
+            onClick={() => setShowModal(true)}
+          >
+            Add a new comment
+      </button> 
+    </div>
 
       <CommentList comments={comments} user={user}/>
 
