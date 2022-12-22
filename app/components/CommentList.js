@@ -14,7 +14,7 @@ export default function CommentList({comments, user}){
     return (
         <div className='py-10 px-10 min-h-screen max-w-full md:mx-auto'>
         {comments.map(comment =>
-            <Comment comment={comment} user={user} />
+            <Comment key={comment.id} comment={comment} user={user} />
     
           )}
         </div>
