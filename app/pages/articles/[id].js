@@ -280,22 +280,25 @@ export default function Article({
 
     if(!liked){
       return (
-        <div>
-        <button onClick={() => react("like")} class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-  <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-      Like ! 
-  </span>
-</button>
-      <p>Nb likes : {nbLikes}</p></div>
+        <div className='flex'>
+          <button onClick={() => react("like")} style={{'margin': "0 auto"}} class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+              Like ! 
+          </span>
+          </button>
+          <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-green-600 md:text-4xl lg:text-4xl dark:text-white">{nbLikes} Likes !</h1>
+
+      </div>
       )
     }
 
     else{
       return (
-      <div>
-        <button onClick={() => react("unlike")} type="button" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Like !</button>
+      <div className='flex'>
+        <button onClick={() => react("unlike")} style={{'margin': "0 auto"}} type="button" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Like !</button>
 
-      <p>Nb likes : {nbLikes}</p></div>
+        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-green-600 md:text-4xl lg:text-4xl dark:text-white">{nbLikes} Likes !</h1>
+        </div>
       )
     }
   }
@@ -325,11 +328,18 @@ export default function Article({
               <figure class="mx-auto max-w-screen-md text-center">
             
                 <figcaption class="flex justify-center items-center mt-6 space-x-3">
-                  <Gravatar className='rounded-3xl' email="blahblah@email.fr"></Gravatar>
-                  <div class="flex items-center divide-x-0 divide-gray-500 dark:divide-gray-700">
-                    <Link href={{pathname:"/profile",query:{userID:article.author_id}}} class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">{article.author}</Link>
-                  </div>
+
+                  
+
+                  <button class="p-2 hover:scale-105 relative inline-flex items-center justify-center mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800">
+                  <Gravatar className='rounded-3xl mx-2' email={article.author}></Gravatar>
+                    <Link href={{pathname:"/profile",query:{userID:article.author_id}}} class=" px-5 py-2.5  bg-white dark:bg-gray-900 rounded-md ">
+                        {article.author}
+                    </Link>
+                  </button>
+
                 </figcaption>
+                
                 <MyTest commentUserID={article.author_id}></MyTest>
               </figure>
               
@@ -556,8 +566,9 @@ export default function Article({
     
 
     <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-5xl dark:text-white text-center">Comments</h1>
-    <div className="test">
+    <div className="flex">
       <button
+      style={{"margin": "0 auto"}}
             className="bg-gray-300 mx-auto text-pink active:bg-black font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
             type="button"
             onClick={() => setShowModal(true)}
