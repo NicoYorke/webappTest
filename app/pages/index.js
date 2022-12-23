@@ -5,6 +5,7 @@ import Header from '../components/Header.js'
 import Footer from '../components/Footer.js'
 
 
+
 export default function Home() {
   return (
     <div>
@@ -47,6 +48,8 @@ export default function Home() {
               </Link>
             </div>
           </div>
+          <iframe className='w-full h-96 my-5'  marginheight="0" id="gmap_canvas" src="https://maps.google.com/maps?width=520&amp;height=400&amp;hl=en&amp;q=37%20Quai%20de%20Grenelle%20PARIS%2015+()&amp;t=&amp;z=12&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>
+
         </main>
         <Footer></Footer>
       </div>
