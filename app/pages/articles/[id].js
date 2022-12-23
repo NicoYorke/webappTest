@@ -34,14 +34,58 @@ export default function Article({
   const [title, setTitle] = useState('')
   const {user, logout, loading} = useContext(UserContext)
   const [content, setContent] = useState('')
+  const [nbLikes, setNbLikes] = useState(0)
+  const [nbDislikes, setNbDislikes] = useState(0)
+  const [liked, setLiked] = useState(false)
+  
   const [formError, setFormError] = useState(null)
 
   const router = useRouter()
 
 
+  useEffect(() =>{
+    
+    console.log("run a lot")
+    async function fetchReactions(){ 
+      let {count, error } = await supabaseClient
+      .from('reactions')
+      .select('*', { count: 'exact' })
+      .eq("article_id", article.id)
+      .eq("type", 'like')
+
+
+      if(count){ 
+        console.log("nbLikes: ", count)
+        setNbLikes(count)
+      }
+      else{
+        console.log("error: ", error)
+      }
+
+      count = await supabaseClient
+        .from('reactions')
+        .select('*', { count: 'exact' })
+        .eq("article_id", article.id)
+        .eq("author_id", article.author_id)
+
+      console.log("count of liked : ", count.count)
+
+      if(count.count == 1){
+        setLiked(true)
+      }
+
+      else if(count.count == 0){
+        setLiked(false)
+      }
+    
+     
+    }
+    fetchReactions()
+  }, [])
+
   const handleSubmit = async (e) => {
 
-    const articleID = article.id
+    let article_id = article.id
     let author_id, authorName, authorEmail
     if (user) {
       authorName = user.email
@@ -69,7 +113,7 @@ export default function Article({
 
     const { data, error } = await supabaseClient
       .from("comments")
-      .insert({ title, authorName, content, articleID, author_id, authorEmail })
+      .insert({ title, authorName, content, article_id, author_id, authorEmail })
 
     if (error) {
       console.log("Error happened : ", error)
@@ -119,7 +163,12 @@ export default function Article({
     let { error } = await supabase
         .from("comments")
         .delete()
-        .eq('articleID', article.id)
+        .eq('article_id', article.id)
+
+    error = await supabase 
+      .from('reactions')
+      .delete()
+      .eq("article_id", article.id)
 
 
     error = await supabase
@@ -131,12 +180,12 @@ export default function Article({
     
   }
 
-  async function uploadImage(articleID){ 
+  async function uploadImage(article_id){ 
     console.log("file id: ", file )
     let { data, error } = await supabaseClient
       .storage
       .from("test")
-      .update("articles/"+articleID, file, {
+      .update("articles/"+article_id, file, {
     cacheControl: '3600',
     upsert: false
   })
@@ -146,15 +195,15 @@ export default function Article({
     }
     else{
       console.log("error upload")
-      createImage(articleID)
+      createImage(article_id)
     }
   }
 
-  async function createImage(articleID){ 
+  async function createImage(article_id){ 
     let {data, error} = await supabase
       .storage
       .from("test")
-      .upload("articles/"+articleID, file)
+      .upload("articles/"+article_id, file)
 
     if(error){
       console.log("error: ", error)
@@ -162,9 +211,42 @@ export default function Article({
 
   }
 
+  async function react(reaction){
+
+    let article_id = article.id
+    let author_id = article.author_id
+    
+    if(reaction == "like"){ 
+      let type = "like"
+      setNbLikes(nbLikes+1)
+      setLiked(true)
+      const {data, error} = await supabaseClient
+        .from("reactions")
+        .insert( { "type": "like", 'article_id': article_id, "author_id": author_id } )
+
+      if(data){ 
+        console.log(data)
+      }
+      else{ 
+        console.log(error)
+      }
+    }
+
+    if(reaction == "unlike"){
+      setNbLikes(nbLikes-1)
+      setLiked(false)
+      let { error } = await supabaseClient
+        .from("reactions")
+        .delete()
+        .eq('article_id', article_id)
+        .eq('author_id', author_id)
+        
+    }
+  }
+
   function MyTest({commentUserID}){
     if(user){
-      console.log("articleID:", commentUserID)
+      console.log("article_id:", commentUserID)
       console.log("actualUserID:", user.id)
     if(user.id == commentUserID){
     return (
@@ -190,6 +272,32 @@ export default function Article({
     }}
    
     
+  }
+
+
+
+  function Reactions(){ 
+
+    if(!liked){
+      return (
+        <div>
+        <button onClick={() => react("like")} class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+  <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+      Like ! 
+  </span>
+</button>
+      <p>Nb likes : {nbLikes}</p></div>
+      )
+    }
+
+    else{
+      return (
+      <div>
+        <button onClick={() => react("unlike")} type="button" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Like !</button>
+
+      <p>Nb likes : {nbLikes}</p></div>
+      )
+    }
   }
 
 
@@ -441,7 +549,11 @@ export default function Article({
       </>
       ) : null }
 
+    <Reactions></Reactions>  
+    
     <hr class="my-12 h-px bg-black border-2 w-3/4 mx-auto"></hr>
+
+    
 
     <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-5xl dark:text-white text-center">Comments</h1>
     <div className="test">
@@ -474,11 +586,12 @@ export async function getStaticProps(ctx) {
     article = data // handle errors
   }
   console.log("arti: ", data)
+
   let comments = []
   data = await supabase
     .from('comments')
     .select()
-    .eq('articleID', ctx.params.id)
+    .eq('article_id', ctx.params.id)
   if (!error) {
     comments = data.data // handle errors
   }
