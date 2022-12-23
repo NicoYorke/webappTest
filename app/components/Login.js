@@ -8,6 +8,11 @@ import Gravatar from 'react-gravatar'
 export default function LoggedIn(){
   const router = useRouter()
   const {user, logout} = useContext(UserContext)
+
+  function log(){
+    logout()
+    router.push('/login')
+  }
   function onClick() {
     if (user)
       router.push('/profile')
@@ -39,7 +44,7 @@ export default function LoggedIn(){
     My comments
   </Dropdown.Item>
   <Dropdown.Divider />
-  <Dropdown.Item onClick={() => logout()}>
+  <Dropdown.Item onClick={log}>
     Sign out
   </Dropdown.Item>
 </Dropdown>
