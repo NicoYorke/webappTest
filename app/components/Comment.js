@@ -13,6 +13,7 @@ export default function Comment({comment, user}){
 
     const [showModal, setShowModal] = useState(false)
     const [deleteModal, setDeleteModal] = useState(false)
+    
 
     const [title, setTitle] = useState(comment.title)
     const [content, setContent] = useState(comment.content)
@@ -49,7 +50,7 @@ export default function Comment({comment, user}){
             return
         }
     
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from("comments")
             .update({content: content, title: title})
             .eq('id', comment.id)

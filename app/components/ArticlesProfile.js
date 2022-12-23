@@ -5,10 +5,6 @@ import { useEffect } from 'react'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 
 
-
-
-
-
 export default function ArticlesProfile({userID}){ 
 
     const [articles, setArticles] = useState([])
