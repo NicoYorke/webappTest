@@ -25,7 +25,7 @@ export default function ArticlesProfile({userID}){
     return (
         <div>
           {articles.map(art =>
-          <div class="border-solid border-2 rounded-lg my-3 border-black p-2 delay-10 hover:scale-105 duration-50 transition ease-in-out hover:cursor-pointer hover:underline">
+          <div key={art.id} class="border-solid border-2 rounded-lg my-3 border-black p-2 delay-10 hover:scale-105 duration-50 transition ease-in-out hover:cursor-pointer hover:underline">
             <p className='font-serif'><Link href={`/articles/${art.id}`}>{art.title}</Link></p>
             </div>
         )}

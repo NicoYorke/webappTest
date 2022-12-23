@@ -25,8 +25,8 @@ export default function CommentsProfile({userID}){
     return (
         <div>
           {comments.map(comment =>
-          <div class="hover:underline">
-            <p className='font-serif'><Link href={`/articles/${comment.articleID}`}>{comment.content}</Link></p>
+          <div key={comment.id} class="hover:underline">
+            <p className='font-serif'><Link href={`/articles/${comment.article_id}`}>{comment.content}</Link></p>
             
                 <hr className="my-2 h-px w-3/4 mx-auto bg-black border-0 dark:bg-black"></hr>
 
