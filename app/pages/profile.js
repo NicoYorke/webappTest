@@ -122,7 +122,7 @@ if(!router.query.userID){
         <p>Redirecting...</p>
         :
         <>
-         <p>{JSON.stringify(user.created)}</p>
+         <p>{JSON.stringify(user.email)}</p>
           <button
             className="rounded px-3 py-2 text-white bg-slate-500 hover:bg-blue-500"
             onClick={onClickLogout}
