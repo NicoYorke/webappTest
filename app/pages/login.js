@@ -28,7 +28,7 @@ export default function Contact() {
       
       <main className="flex flex-col items-center justify-center flex-grow min-h-screen px-0 py-16 bg-slate-300 ">
       <h1 className='wt-title '>
-        Sign in/log in
+        Sign In / Sign Up
       </h1>
       <div className="w-4/5 text-center bg-white border rounded-lg shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
       
@@ -36,7 +36,7 @@ export default function Contact() {
       
         supabaseClient={supabaseClient}
         appearance={{ theme: ThemeSupa }}
-        providers={['github']}
+        providers={['github', 'discord', 'google']}
        />
        </div>
        </main>
