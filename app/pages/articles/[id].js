@@ -559,7 +559,10 @@ export default function Article({
       </>
       ) : null }
 
-    <Reactions></Reactions>  
+    {user ? (
+      <Reactions></Reactions> 
+    ) : null }
+     
     
     <hr class="my-12 h-px bg-black border-2 w-3/4 mx-auto"></hr>
 
