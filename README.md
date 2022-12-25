@@ -33,7 +33,9 @@
 
 ## Authors
 
-*name, email, ...*
+- Victor DUVAL-BERTIN - *victor.duvalbertin@edu.ece.fr*
+- Nicolas YORKE - *nicolas.yorke@edu.ece.fr*
+- Arthur GENTON - *arthur.genton@edu.ece.fr*
 
 ## Tasks
   
@@ -44,18 +46,22 @@
 * Project structure   
   *place your graduation and comments*
 * Git   
-  *place your graduation and comments*
+  * 2/2 Points
+  *We have been careful to commit cleanly on each of our pushes*  
 * Code quality   
   *place your graduation and comments*
 * Design, UX, and content   
-  *place your graduation and comments*
+  * 4/4 Points
+  *We made pages looking like pages we can find on article websites or not, modern with photos, with responsiveness. We used exclusively Tailwind CSS with the help of the Flowbite library (especially for the Footer, the Header and other components like modals). Only the page of articles is a little less responsive than the others, because we must load the photos from the Supabase storage.*
 
 **Application development:**
 
 * Home page   
-  *place your graduation and comments*
+  * 2/2 Points
+  *Our Home page is inspired by modern websites with photos in the foreground, the main categories of our site, and a Google API (bonus) of the ECE Paris location (fictitiously the location of Sparticles)*
 * Login and profile page   
-  *place your graduation and comments*
+* 4/4 Points
+  *You can log in on the login page and log out on the profile page. The Login page includes the Auth component of Supabase allowing a simple connection/creation of account. We have also implemented the **providers of : Github, Google and Discord which are functional (Bonus)**. The profile page contains the information of the user (first name, last name, nickname) that **he can change and that is persistent in the database (Bonus)**, but also **all the articles and comments written by him (Bonus)**. We will come back to this later but it is possible to **access the profile page of any user (Bonus)**.*
 * New articles creation   
   *place your graduation and comments*
 * New comment creation   
