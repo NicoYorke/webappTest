@@ -160,18 +160,18 @@ export default function Article({
   const deleteSubmit = async (e) => { 
     e.preventDefault()
     
-    let { error } = await supabase
+    let { error } = await supabaseClient
         .from("comments")
         .delete()
         .eq('article_id', article.id)
 
-    error = await supabase 
+    error = await supabaseClient
       .from('reactions')
       .delete()
       .eq("article_id", article.id)
 
 
-    error = await supabase
+    error = await supabaseClient
       .from("article")
       .delete()
       .eq("id", article.id)
