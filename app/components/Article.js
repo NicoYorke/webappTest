@@ -58,9 +58,9 @@ export default function Article({art, image}){
                 </a>
                 <div class="p-5">
                     
-                    <h5 class="mb-2 hover:underline text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><Link href={`/articles/${art.id}`}>{art.title}</Link></h5>
+                    <h5 class="mb-2 hover:underline text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><Link href={`/articles/${art.id}`} as={`/articles/${art.id}`}>{art.title}</Link></h5>
                     
-                    <Link href={{pathname: "/profile", query: {userID: art.author_id}}} class="mb-3 font-normal hover:underline hover:text-blue-600 cursor-pointer text-gray-700 dark:text-gray-400">{art.author}</Link>
+                    <Link href={{pathname: "/profile", query: {userID: art.author_id}}} as="" class="mb-3 font-normal hover:underline hover:text-blue-600 cursor-pointer text-gray-700 dark:text-gray-400">{art.author}</Link>
                     
                     
                  </div>
