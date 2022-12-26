@@ -629,6 +629,6 @@ export async function getStaticPaths(ctx) {
   if (!error) articles = data // handle errors
   return {
     paths: articles.map(article => `/articles/${article.id}`),
-    fallback: false
+    fallback: true
   };
 }
