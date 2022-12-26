@@ -616,7 +616,8 @@ export async function getStaticProps(ctx) {
     props: {
       article: article,
       comments: comments
-    }
+    },
+    revalidate: 10,
   };
 
 }
@@ -629,6 +630,6 @@ export async function getStaticPaths(ctx) {
   if (!error) articles = data // handle errors
   return {
     paths: articles.map(article => `/articles/${article.id}`),
-    fallback: false
+    fallback: 'blocking'
   };
 }
