@@ -9,7 +9,7 @@ import { redirect } from 'next/dist/server/api-utils/index.js'
 import CommentList from '../../components/CommentList.js'
 import Gravatar from 'react-gravatar'
 import { SupabaseClient } from '@supabase/supabase-js'
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
 import Link from 'next/link.js'
 
 
@@ -45,8 +45,10 @@ export default function Article({
 
   useEffect(() =>{
     
-    console.log("run a lot")
+    
     async function fetchReactions(){ 
+      
+      console.log("bonsoir je suis co")
       let {count, error } = await supabaseClient
       .from('reactions')
       .select('*', { count: 'exact' })
@@ -62,26 +64,37 @@ export default function Article({
         console.log("error: ", error)
       }
 
-      count = await supabaseClient
-        .from('reactions')
-        .select('*', { count: 'exact' })
-        .eq("article_id", article.id)
-        .eq("author_id", article.author_id)
 
-      console.log("count of liked : ", count.count)
-
-      if(count.count == 1){
-        setLiked(true)
-      }
-
-      else if(count.count == 0){
-        setLiked(false)
-      }
     
      
     }
     fetchReactions()
   }, [])
+
+
+  if(user){ 
+    fetchedLikedState()
+  }
+
+  async function fetchedLikedState(){
+
+    console.log("entered in fetchLikedState")
+    let count = await supabaseClient
+    .from('reactions')
+    .select('*', { count: 'exact' })
+    .match({"article_id": article.id, "author_id": user.id})
+
+  console.log("count of liked : ", count.count)
+  
+
+  if(count.count == 1){
+    setLiked(true)
+  }
+
+  else if(count.count == 0){
+    setLiked(false)
+  }
+  }
 
   const handleSubmit = async (e) => {
 
@@ -214,7 +227,7 @@ export default function Article({
   async function react(reaction){
 
     let article_id = article.id
-    let author_id = article.author_id
+    let author_id = user.id
     
     if(reaction == "like"){ 
       let type = "like"
@@ -225,21 +238,21 @@ export default function Article({
         .insert( { "type": "like", 'article_id': article_id, "author_id": author_id } )
 
       if(data){ 
-        console.log(data)
+        console.log("data: ", data)
       }
       else{ 
-        console.log(error)
+        console.log("error: ", error)
       }
     }
 
-    if(reaction == "unlike"){
+    else if(reaction == "unlike"){
       setNbLikes(nbLikes-1)
       setLiked(false)
       let { error } = await supabaseClient
         .from("reactions")
         .delete()
         .eq('article_id', article_id)
-        .eq('author_id', author_id)
+        .eq('author_id', user.id)
         
     }
   }
@@ -278,6 +291,8 @@ export default function Article({
 
   function Reactions(){ 
 
+    console.log('entered in Reactions')
+
     if(!liked){
       return (
         <div className='flex'>
@@ -312,8 +327,6 @@ export default function Article({
         <meta name="description" content="WebTech articles page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-
 
       <div className='flex py-9 bg-slate-300'>
         <div className='w-1/3 mx-10'>
