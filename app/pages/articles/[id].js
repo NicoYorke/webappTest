@@ -30,10 +30,12 @@ export default function Article({
 
   const [articleTitle, setArticleTitle] = useState(article.title)
   const [articleContent, setArticleContent] = useState(article.content)
+  const [shortDesc, setShortDesc] = useState(article.short_desc)
 
   const [title, setTitle] = useState('')
   const {user, logout, loading} = useContext(UserContext)
   const [content, setContent] = useState('')
+  
   const [nbLikes, setNbLikes] = useState(0)
   const [nbDislikes, setNbDislikes] = useState(0)
   const [liked, setLiked] = useState(false)
@@ -152,7 +154,7 @@ export default function Article({
 
     const { data, error } = await supabaseClient
         .from("article")
-        .update({content: articleContent, title: articleTitle})
+        .update({content: articleContent, title: articleTitle, short_desc: shortDesc})
         .eq('id', article.id)
 
     if (error){ 
@@ -162,7 +164,7 @@ export default function Article({
         console.log("Data :", data)
         setFormError(null)
         setEditModal(false)
-       // window.location.reload(false)
+        window.location.reload(false)
     }
 
     if(file){ 
@@ -336,7 +338,7 @@ export default function Article({
         <div className='w-2/3 flex-wrap'>
 
         <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-5xl dark:text-white text-center">{article.title}</h1>
-        <h3 class="text-3xl font-bold dark:text-white text-center my-6">La suprématie de larmée Allemande sur la seconde guerre Mondiale qui s&apos;est déroulée de 1939 à 1945</h3>
+        <h3 class="text-3xl font-bold dark:text-white text-center my-6">{article.short_desc}</h3>
             
               <figure class="mx-auto max-w-screen-md text-center">
             
@@ -477,6 +479,17 @@ export default function Article({
                     class="block p-4 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-1"
                     value={articleTitle}
                     onChange={(e) => setArticleTitle(e.target.value)}
+                    />
+            </div>
+
+            <div class="w-1/2 mb-6">
+                <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Short description</label>
+                <input 
+                    type="text" 
+                    id="shortDesc" 
+                    class="block p-4 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-1"
+                    value={shortDesc}
+                    onChange={(e) => setShortDesc(e.target.value)}
                     />
             </div>
             
